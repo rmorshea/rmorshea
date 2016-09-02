@@ -28,7 +28,7 @@ June'15 - Jan'16
 Aug'14 - June'15
 -----------------
 
- **Research Associate** to Prof. Brian Granger (Physics)
+**Research Associate** to Prof. Brian Granger (Physics)
 
 * Jupyter Widgets
     + Created a platform for scalable vector graphics in a web browser
