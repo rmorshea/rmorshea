@@ -50,7 +50,7 @@ Aug'14 - June'15
 June'14 - Aug'14
 -----------------
 
- **Research Associate** to Prof. Jennifer Klay (Physics)*
+**Research Associate** to Prof. Jennifer Klay (Physics)
 
 * Neutron Induced Fission Experiment
     + Wrote code for NIFFTE at Los Alamos National Laboratory
