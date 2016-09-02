@@ -1,0 +1,3 @@
+.. include:: ../../../ising/README.rst
+
+*source: https://github.com/rmorshea/ising*

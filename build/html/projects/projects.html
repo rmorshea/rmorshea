@@ -24,18 +24,18 @@
 
   
   
-    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   
 
   
 
   
-    <link rel="top" title="resume 0.1.0 documentation" href="index.html"/>
-        <link rel="next" title="Education &amp; Skills" href="education.html"/>
-        <link rel="prev" title="Jan‘16 to Present" href="jan16_present.html"/> 
+    <link rel="top" title="resume 0.1.0 documentation" href="../index.html"/>
+        <link rel="next" title="Spectate" href="spectate.html"/>
+        <link rel="prev" title="Work Experience" href="../experience/experience.html"/> 
 
   
-  <script src="_static/js/modernizr.min.js"></script>
+  <script src="../_static/js/modernizr.min.js"></script>
 
 </head>
 
@@ -50,7 +50,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home"> resume
+            <a href="../index.html" class="icon icon-home"> resume
           
 
           
@@ -67,7 +67,7 @@
 
           
 <div role="search">
-  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
@@ -82,9 +82,14 @@
             
             
                 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="experience.html">Work Experience</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Personal Projects</a></li>
-<li class="toctree-l1"><a class="reference internal" href="education.html">Education &amp; Skills</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../experience/experience.html">Work Experience</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Personal Projects</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="spectate.html">Spectate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ising.html">Ising</a></li>
+<li class="toctree-l2"><a class="reference internal" href="songspot.html">SongSpot</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../education.html">Education &amp; Skills</a></li>
 </ul>
 
             
@@ -98,7 +103,7 @@
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
         <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="index.html">resume</a>
+        <a href="../index.html">resume</a>
       </nav>
 
 
@@ -113,13 +118,13 @@
 
 <div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
-    <li><a href="index.html">Docs</a> &raquo;</li>
+    <li><a href="../index.html">Docs</a> &raquo;</li>
       
     <li>Personal Projects</li>
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="_sources/projects.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/projects/projects.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -131,16 +136,9 @@
             
   <div class="section" id="personal-projects">
 <h1>Personal Projects<a class="headerlink" href="#personal-projects" title="Permalink to this headline">¶</a></h1>
-<p><strong>Data Parsing Module</strong> - <a class="reference external" href="https://github.com/rmorshea/dstruct">dstruct</a></p>
-<blockquote>
-<div><ul class="simple">
-<li>A framework for parsing and trawling data sets in Python</li>
-<li>Maps larger data structures onto smaller ones</li>
-<li>Simplifies sifting through highly nested or fractured datasets</li>
-<li>An intuitive API makes pruning useless data, and parsing its relevant subsets easy.</li>
-</ul>
-</div></blockquote>
-<p><strong>Object State Callbacks</strong> - <a class="reference external" href="https://github.com/rmorshea/spectate">spectate</a></p>
+<div class="toctree-wrapper compound">
+</div>
+<p><strong>Object State Callbacks</strong> - <a class="reference external" href="spectate.html">spectate</a></p>
 <blockquote>
 <div><ul class="simple">
 <li>A self contained module for cleanly wrapping built-in object methods</li>
@@ -149,21 +147,30 @@
 <li>Initial version is uploaded to pypi.org for public download and use</li>
 </ul>
 </div></blockquote>
-<p><strong>Song Posting Twitter Bot</strong> - <a class="reference external" href="https://github.com/rmorshea/songspot">songspot</a></p>
+<p><strong>Data Parsing Module</strong> - <a class="reference external" href="dstruct.html">dstruct</a></p>
+<blockquote>
+<div><ul class="simple">
+<li>A framework for parsing and trawling data sets in Python</li>
+<li>Maps larger data structures onto smaller ones</li>
+<li>Simplifies sifting through highly nested or fractured datasets</li>
+<li>An intuitive API makes pruning useless data, and parsing its relevant subsets easy.</li>
+</ul>
+</div></blockquote>
+<p><strong>Ising Model Simulator</strong> - <a class="reference external" href="ising.html">ising</a></p>
+<blockquote>
+<div><ul class="simple">
+<li>Runs a simulation of the classic Ising model from thermodynamics</li>
+<li>Creates binary images that are converted to downloadable GIF&#8217;s</li>
+<li>Includes built-in functions to analyze polarization and energy states</li>
+</ul>
+</div></blockquote>
+<p><strong>Song Posting Twitter Bot</strong> - <a class="reference external" href="songspot.html">songspot</a> (no docs)</p>
 <blockquote>
 <div><ul class="simple">
 <li>A Twitter bot that pulls songs submitted to reddit pages</li>
 <li>Ranks them using an algorithm</li>
 <li>Considers their Reddit and Spotify popularity</li>
 <li>And posts the best ones to Twitter</li>
-</ul>
-</div></blockquote>
-<p><strong>Ising Model Simulator</strong> - <a class="reference external" href="https://github.com/rmorshea/ising">ising</a></p>
-<blockquote>
-<div><ul class="simple">
-<li>Runs a simulation of the classic Ising model from thermodynamics</li>
-<li>Creates binary images that are converted to downloadable GIF&#8217;s</li>
-<li>Includes built-in functions to analyze polarization and energy states</li>
 </ul>
 </div></blockquote>
 </div>
@@ -175,10 +182,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="education.html" class="btn btn-neutral float-right" title="Education &amp; Skills" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="spectate.html" class="btn btn-neutral float-right" title="Spectate" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="jan16_present.html" class="btn btn-neutral" title="Jan‘16 to Present" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="../experience/experience.html" class="btn btn-neutral" title="Work Experience" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -208,22 +215,22 @@
 
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'./',
+            URL_ROOT:'../',
             VERSION:'0.1.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true
         };
     </script>
-      <script type="text/javascript" src="_static/jquery.js"></script>
-      <script type="text/javascript" src="_static/underscore.js"></script>
-      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
 
   
 
   
   
-    <script type="text/javascript" src="_static/js/theme.js"></script>
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
   
 
   

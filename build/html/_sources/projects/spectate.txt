@@ -1,0 +1,3 @@
+.. include:: ../../../spectate/README.rst
+
+*source: https://github.com/rmorshea/spectate*

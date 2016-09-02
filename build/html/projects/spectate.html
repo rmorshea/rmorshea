@@ -1,0 +1,293 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Spectate &mdash; resume 0.1.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="resume 0.1.0 documentation" href="../index.html"/>
+        <link rel="up" title="Personal Projects" href="projects.html"/>
+        <link rel="next" title="DStruct" href="dstruct.html"/>
+        <link rel="prev" title="Personal Projects" href="projects.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> resume
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../experience/experience.html">Work Experience</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="projects.html">Personal Projects</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Spectate</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#instalation">Instalation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#basic-usage">Basic Usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#under-the-hood">Under The Hood</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="dstruct.html">DStruct</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ising.html">Ising</a></li>
+<li class="toctree-l2"><a class="reference internal" href="songspot.html">SongSpot</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../education.html">Education &amp; Skills</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">resume</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="projects.html">Personal Projects</a> &raquo;</li>
+      
+    <li>Spectate</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/projects/spectate.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="spectate">
+<h1>Spectate<a class="headerlink" href="#spectate" title="Permalink to this headline">¶</a></h1>
+<p>Create classes whose instances have tracked methods</p>
+<div class="section" id="instalation">
+<h2>Instalation<a class="headerlink" href="#instalation" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal"><span class="pre">spectate</span></code> can be installed from GitHub using <code class="docutils literal"><span class="pre">pip</span></code>:</p>
+<div class="code text highlight-default"><div class="highlight"><pre><span></span>$ pip install git+https://github.com/rmorshea/spectate.git#egg=spectate
+</pre></div>
+</div>
+</div>
+<div class="section" id="basic-usage">
+<h2>Basic Usage<a class="headerlink" href="#basic-usage" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal"><span class="pre">spectate</span></code> is useful for remotely tracking how an instance is modified. This means that protocols
+for managing updates, don&#8217;t need to be the outward responsibility of a user, and can instead be
+done automagically in the background.</p>
+<p>For instance, if it were desirable to keep track of element changes in a list, <code class="docutils literal"><span class="pre">spectate</span></code> could be
+used to observe <code class="docutils literal"><span class="pre">list.__setitiem__</span></code> in order to be notified when a user sets the value of an element
+in the list. To do this, we would first create a <code class="docutils literal"><span class="pre">ListSpectator</span></code> that inherits from <code class="docutils literal"><span class="pre">Spectator</span></code>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">spectate</span> <span class="kn">import</span> <span class="n">Spectator</span>
+
+<span class="k">class</span> <span class="nc">ListSpectator</span><span class="p">(</span><span class="n">Spectator</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inst</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ListSpectator</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">inst</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_change</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;old&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span> <span class="s1">&#39;new&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">instance_will_call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">):</span>
+        <span class="c1"># we know the name will be __setitem__</span>
+        <span class="c1"># since that&#39;s all we&#39;re spectating</span>
+        <span class="n">index</span><span class="p">,</span> <span class="n">new</span> <span class="o">=</span> <span class="n">args</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">old</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inst</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">old</span> <span class="o">!=</span> <span class="n">new</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_change</span><span class="p">[</span><span class="s1">&#39;old&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">index</span><span class="p">:</span> <span class="n">old</span><span class="p">}</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_change</span><span class="p">[</span><span class="s1">&#39;new&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">index</span><span class="p">:</span> <span class="n">new</span><span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">instance_post_call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">returned</span><span class="p">):</span>
+        <span class="n">o</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_change</span><span class="p">[</span><span class="s1">&#39;old&#39;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">_change</span><span class="p">[</span><span class="s1">&#39;new&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">o</span> <span class="ow">and</span> <span class="n">n</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> : </span><span class="si">%r</span><span class="s2"> -&gt; </span><span class="si">%r</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">o</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_change</span><span class="p">[</span><span class="s1">&#39;old&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_change</span><span class="p">[</span><span class="s1">&#39;new&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">instance_will_call</span></code> considers the argments being passed to <code class="docutils literal"><span class="pre">__setitem__</span></code> and determines whether
+the value of the element being set will be different. If it&#8217;s different, the new and old values
+are cached. Then, <code class="docutils literal"><span class="pre">instance_post_call</span></code> checks for a change, and prints it if there was.</p>
+<p>To implement <code class="docutils literal"><span class="pre">ListSpectator</span></code>, all we need to do is create a <code class="docutils literal"><span class="pre">WatchedList</span></code> class using <code class="docutils literal"><span class="pre">WatchedType</span></code>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">WatchedList</span> <span class="o">=</span> <span class="n">WatchedType</span><span class="p">(</span><span class="s1">&#39;WatchedList&#39;</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="n">ListSpectator</span><span class="p">,</span> <span class="s1">&#39;__setitem__&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The instances of <code class="docutils literal"><span class="pre">WatchedList</span></code> will behave exactly like a <code class="docutils literal"><span class="pre">list</span></code> in every way. The only difference being
+that when a user decides to change the value of a preexisting element, the spectator is notified, and
+will print once the action is complete:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">l</span> <span class="o">=</span> <span class="n">WatchedList</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+</pre></div>
+</div>
+<p>Prints <code class="docutils literal"><span class="pre">__setitem__</span> <span class="pre">:</span> <span class="pre">{0:</span> <span class="pre">1}</span> <span class="pre">-&gt;</span> <span class="pre">{0:</span> <span class="pre">0}</span></code></p>
+</div>
+<div class="section" id="under-the-hood">
+<h2>Under The Hood<a class="headerlink" href="#under-the-hood" title="Permalink to this headline">¶</a></h2>
+<p>Methods are tracked by using <code class="docutils literal"><span class="pre">WatchedType</span></code> to create a new class with <code class="docutils literal"><span class="pre">method_spectator</span></code> descriptors in
+the place of specified methods. At the time an instance of this class is created, a spectator that weakly
+references it is assigned under the attribute name <code class="docutils literal"><span class="pre">instance_spectator</span></code>. When a <code class="docutils literal"><span class="pre">method_spectator</span></code>
+is accessed through an instance, the descriptor will return a new wrapper function that notifies the
+<code class="docutils literal"><span class="pre">instance_spectator</span></code> of the fact that the wrapper is being called.</p>
+<p>The instance&#8217;s spectator is pinged before and after the wrapper function returned by a <code class="docutils literal"><span class="pre">method_spectator</span></code>
+calls its base method. This fully communicates what will happen, and what has happened to the instance
+when the base method is called - the preemptive notification is sent with the arguments of the call and the
+name of the base method, while afterwards, the base method&#8217;s name and the call&#8217;s result are sent to the
+spectator.</p>
+<p><em>source: https://github.com/rmorshea/spectate</em></p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="dstruct.html" class="btn btn-neutral float-right" title="DStruct" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="projects.html" class="btn btn-neutral" title="Personal Projects" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Ryan Morshead.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

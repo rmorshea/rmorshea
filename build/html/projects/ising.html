@@ -1,0 +1,284 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Ising &mdash; resume 0.1.0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="resume 0.1.0 documentation" href="../index.html"/>
+        <link rel="up" title="Personal Projects" href="projects.html"/>
+        <link rel="next" title="SongSpot" href="songspot.html"/>
+        <link rel="prev" title="DStruct" href="dstruct.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> resume
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../experience/experience.html">Work Experience</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="projects.html">Personal Projects</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="spectate.html">Spectate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dstruct.html">DStruct</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Ising</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#installation">Installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#usage">Usage</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="songspot.html">SongSpot</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../education.html">Education &amp; Skills</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">resume</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="projects.html">Personal Projects</a> &raquo;</li>
+      
+    <li>Ising</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/projects/ising.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="ising">
+<h1>Ising<a class="headerlink" href="#ising" title="Permalink to this headline">¶</a></h1>
+<p>A quick implementation of a classic, and simple, representation
+of ferromagnetism from thermodynamics in both Python and Mathematica.
+All documentation for Mathematica version of the model is given in the notebook
+itself. What&#8217;s below pertains only to the Python version.</p>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<p>This module can be installed with
+<a class="reference external" href="https://github.com/rmorshea/antipackage">antipackage</a>
+using the following commands:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">antipackage</span>
+<span class="kn">from</span> <span class="nn">github.rmorshea.ising</span> <span class="kn">import</span> <span class="n">ising</span>
+</pre></div>
+</div>
+<p>Dependancies: <a class="reference external" href="http://ipython.org/">IPython</a>,
+<a class="reference external" href="http://www.pythonware.com/products/pil/">PIL</a>,
+<a class="reference external" href="https://pypi.python.org/pypi/images2gif">images2gif</a></p>
+</div>
+<div class="section" id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
+<p><strong>Animated GIFs:</strong></p>
+<p>Begin by making a lattice populated with upward or downward polarized ferromagnets:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">lat</span> <span class="o">=</span> <span class="n">ising</span><span class="o">.</span><span class="n">Lattice</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">dist</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">nghbrs</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
+<span class="n">lat</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">y:</th><td class="field-body">int
+length of the lattice&#8217;s y dimension</td>
+</tr>
+<tr class="field-even field"><th class="field-name">x:</th><td class="field-body">int
+length of the lattice&#8217;s x dimension</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">dist:</th><td class="field-body">float
+the distribution of spin up to spin down (between 0 and 1)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">T:</th><td class="field-body">float or list
+Given a number, the lattice will remain at a constant temp
+throughout anamations and analysis. However given a list of
+temperatures the lattice will progress through them during
+animation.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">nghbrs:</th><td class="field-body">int
+the number of neighbors influencing a particular unit (4 or 8)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">size:</th><td class="field-body">int
+size of the rendered units</td>
+</tr>
+</tbody>
+</table>
+<p>Animate <code class="docutils literal"><span class="pre">lat</span></code> by specifying how many saved frames should be used,
+and how many time steps each one will represent (this step may take some time).
+Then to prepare the frames for <code class="docutils literal"><span class="pre">images2gif</span></code>, save each one in a directory as
+numbered png files with:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">lat</span><span class="o">.</span><span class="n">animate</span><span class="p">(</span><span class="n">time_steps</span><span class="p">,</span> <span class="n">frames</span><span class="p">)</span>
+<span class="n">lat</span><span class="o">.</span><span class="n">make_pngs</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Finally the last step is to create your GIF with <cite>lat.make_gif()</cite>:</p>
+<a class="reference internal image-reference" href="https://raw.githubusercontent.com/rmorshea/ising/master/docs/Teq1.5.GIF"><img alt="https://raw.githubusercontent.com/rmorshea/ising/master/docs/Teq1.5.GIF" src="https://raw.githubusercontent.com/rmorshea/ising/master/docs/Teq1.5.GIF" style="width: 200px; height: 200px;" /></a>
+<p><strong>Model Analysis:</strong></p>
+<p>Standard information about the model is given by the output of <code class="docutils literal"><span class="pre">lat.analyze()</span></code>. This returns the average magnitization, avg energy, and heat capacity at each frame of animation. Alternatively, <code class="docutils literal"><span class="pre">lat.get_potentials</span></code> returns the average energy and squared average anergy at each frame.</p>
+<p>For more detailed information see <code class="docutils literal"><span class="pre">lat.U</span></code>, <code class="docutils literal"><span class="pre">lat.S</span></code>, and <code class="docutils literal"><span class="pre">lat.rgbs</span></code> for raw data potential, spin, and rgb arrays from each frame of the model&#8217;s animation.</p>
+<p><em>source: https://github.com/rmorshea/ising</em></p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="songspot.html" class="btn btn-neutral float-right" title="SongSpot" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="dstruct.html" class="btn btn-neutral" title="DStruct" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Ryan Morshead.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
