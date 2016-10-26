@@ -6,11 +6,16 @@ Personal Projects
     :maxdepth: 1
     :hidden:
 
+    commits
     spectate
     dstruct
     ising
     songspot
 
+**Open Source Contributions** - `commits <commits.html>`_
+    
+    + A key member of the team responsible for the 4.2 release of Traitlets
+    + A repeat responder to, and poster of, issues, bugs and pull requests.
 
 **Object State Callbacks** - `spectate <spectate.html>`_
 

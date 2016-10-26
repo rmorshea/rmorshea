@@ -6,10 +6,10 @@ Ryan Morshead
 * email : ryan.morshead@gmail.com
 * home : San Anselmo, CA 94960
 
-Self motivated individual with enthusiasm for new challenges, close ties to open
-source communities, and more than two years of coding experience - primarily in
-Python - backed up by a high level of mathematical work, and experience with data
-in and out of the lab as a physicist.
+Self motivated coding professional with a passion for new challenges, close
+ties to open source communities, and more than two years of focused experience
+as a Python developer that are backed up by an aptitude for data analytics,
+and mathematical grit gained as a physicist.
 
 Contents
 --------
@@ -17,6 +17,6 @@ Contents
 .. toctree::
 	:maxdepth: 1
 
-	experience/experience.rst
+	experience
 	projects/projects.rst
 	education
