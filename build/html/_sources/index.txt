@@ -17,6 +17,6 @@ Contents
 .. toctree::
 	:maxdepth: 1
 
-	experience/experience.rst
+	experience
 	projects/projects.rst
 	education

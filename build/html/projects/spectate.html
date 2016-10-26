@@ -83,11 +83,14 @@
             
             
                 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../experience/experience.html">Work Experience</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../experience.html">Work Experience</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="projects.html">Personal Projects</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Spectate</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#instalation">Instalation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#basic-usage">Basic Usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#beforebacks">Beforebacks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#afterbacks">Afterbacks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#example">Example</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#under-the-hood">Under The Hood</a></li>
 </ul>
 </li>
@@ -158,67 +161,125 @@
 <p><code class="docutils literal"><span class="pre">spectate</span></code> is useful for remotely tracking how an instance is modified. This means that protocols
 for managing updates, don&#8217;t need to be the outward responsibility of a user, and can instead be
 done automagically in the background.</p>
-<p>For instance, if it were desirable to keep track of element changes in a list, <code class="docutils literal"><span class="pre">spectate</span></code> could be
+<p>For example, if it were desirable to keep track of element changes in a list, <code class="docutils literal"><span class="pre">spectate</span></code> could be
 used to observe <code class="docutils literal"><span class="pre">list.__setitiem__</span></code> in order to be notified when a user sets the value of an element
-in the list. To do this, we would first create a <code class="docutils literal"><span class="pre">ListSpectator</span></code> that inherits from <code class="docutils literal"><span class="pre">Spectator</span></code>:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">spectate</span> <span class="kn">import</span> <span class="n">Spectator</span>
+in the list. To do this, we would first create a <code class="docutils literal"><span class="pre">EventfulList</span></code> using <code class="docutils literal"><span class="pre">watched_type</span></code>, and then
+store pairs of callbacks to an instance of <code class="docutils literal"><span class="pre">EventfulList</span></code> using the public method <code class="docutils literal"><span class="pre">spectator_callback</span></code>.
+Each pair is registered by specifying, with keywords, whether the callback should be triggered
+<code class="docutils literal"><span class="pre">before</span></code>, and/or or <code class="docutils literal"><span class="pre">after</span></code> a given method is called - hereafter refered to as &#8220;beforebacks&#8221;
+and &#8220;afterbacks&#8221; respectively.</p>
+</div>
+<div class="section" id="beforebacks">
+<h2>Beforebacks<a class="headerlink" href="#beforebacks" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p class="first">Have a signature of <code class="docutils literal"><span class="pre">(instance,</span> <span class="pre">call)</span></code></p>
+<blockquote>
+<div><ul>
+<li><p class="first"><code class="docutils literal"><span class="pre">instance</span></code> is the owner of the method</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">call</span></code> is a <code class="docutils literal"><span class="pre">Bunch</span></code> with the keys:</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">'name'</span></code> - the name of the method which was called</li>
+<li><code class="docutils literal"><span class="pre">'args'</span></code> - the arguments which that method will call</li>
+<li><code class="docutils literal"><span class="pre">'kwargs'</span></code> - the keywords which that method will call</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">Can <code class="docutils literal"><span class="pre">return</span></code> a value which gets passed on to its respective afterback.</p>
+</li>
+<li><p class="first">If an error is encountered:</p>
+<blockquote>
+<div><ul>
+<li><p class="first">The wrapper will <code class="docutils literal"><span class="pre">return</span></code> the original <code class="docutils literal"><span class="pre">call</span></code></p>
+</li>
+<li><p class="first">and set the <code class="docutils literal"><span class="pre">'error'</span></code> key in its afterback&#8217;s <code class="docutils literal"><span class="pre">answer</span></code> bunch.</p>
+<blockquote>
+<div><ul class="simple">
+<li>This means that if the base method call is valid, it&#8217;s not obstructed by a raised beforeback.</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div>
+<div class="section" id="afterbacks">
+<h2>Afterbacks<a class="headerlink" href="#afterbacks" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p class="first">Have a signature of <code class="docutils literal"><span class="pre">(instance,</span> <span class="pre">answer)</span></code></p>
+<blockquote>
+<div><ul>
+<li><p class="first"><code class="docutils literal"><span class="pre">instance</span></code> is the owner of the method</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">answer</span></code> is a <code class="docutils literal"><span class="pre">Bunch</span></code> with the keys:</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">'name'</span></code> - the name of the method which was called</li>
+<li><code class="docutils literal"><span class="pre">'value'</span></code> - the value returned by the method</li>
+<li><code class="docutils literal"><span class="pre">'before'</span></code> - the value returned by the respective beforeback</li>
+<li><code class="docutils literal"><span class="pre">'error'</span></code> - None, or the error encountered in the beforeback</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">Responcible for raising beforeback errors.</p>
+</li>
+<li><p class="first">Should not <code class="docutils literal"><span class="pre">return</span></code></p>
+</li>
+</ul>
+</div>
+<div class="section" id="example">
+<h2>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">spectate</span> <span class="kn">import</span> <span class="n">watched_type</span>
 
-<span class="k">class</span> <span class="nc">ListSpectator</span><span class="p">(</span><span class="n">Spectator</span><span class="p">):</span>
+<span class="n">EventfulList</span> <span class="o">=</span> <span class="n">watched_type</span><span class="p">(</span><span class="s1">&#39;EventfulList&#39;</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="s1">&#39;__setitem__&#39;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inst</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">ListSpectator</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">inst</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_change</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;old&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span> <span class="s1">&#39;new&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">}</span>
+<span class="k">def</span> <span class="nf">pass_on_old_value</span><span class="p">(</span><span class="n">inst</span><span class="p">,</span> <span class="n">call</span><span class="p">):</span>
+    <span class="n">index</span> <span class="o">=</span> <span class="n">call</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">old</span> <span class="o">=</span> <span class="n">inst</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">index</span><span class="p">,</span> <span class="n">old</span>
 
-    <span class="k">def</span> <span class="nf">instance_will_call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">):</span>
-        <span class="c1"># we know the name will be __setitem__</span>
-        <span class="c1"># since that&#39;s all we&#39;re spectating</span>
-        <span class="n">index</span><span class="p">,</span> <span class="n">new</span> <span class="o">=</span> <span class="n">args</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">old</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inst</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
-        <span class="k">except</span><span class="p">:</span>
-            <span class="k">pass</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">old</span> <span class="o">!=</span> <span class="n">new</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_change</span><span class="p">[</span><span class="s1">&#39;old&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">index</span><span class="p">:</span> <span class="n">old</span><span class="p">}</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_change</span><span class="p">[</span><span class="s1">&#39;new&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">index</span><span class="p">:</span> <span class="n">new</span><span class="p">}</span>
-
-    <span class="k">def</span> <span class="nf">instance_post_call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">returned</span><span class="p">):</span>
-        <span class="n">o</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_change</span><span class="p">[</span><span class="s1">&#39;old&#39;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">_change</span><span class="p">[</span><span class="s1">&#39;new&#39;</span><span class="p">]</span>
-        <span class="k">if</span> <span class="n">o</span> <span class="ow">and</span> <span class="n">n</span><span class="p">:</span>
-            <span class="k">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> : </span><span class="si">%r</span><span class="s2"> -&gt; </span><span class="si">%r</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">o</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_change</span><span class="p">[</span><span class="s1">&#39;old&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_change</span><span class="p">[</span><span class="s1">&#39;new&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>
+<span class="k">def</span> <span class="nf">print_element_change</span><span class="p">(</span><span class="n">inst</span><span class="p">,</span> <span class="n">answer</span><span class="p">):</span>
+    <span class="c1"># answer.before = pass_on_old(call)</span>
+    <span class="n">index</span><span class="p">,</span> <span class="n">old</span> <span class="o">=</span> <span class="n">answer</span><span class="o">.</span><span class="n">before</span>
+    <span class="n">new</span> <span class="o">=</span> <span class="n">inst</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">new</span> <span class="o">!=</span> <span class="n">old</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;{</span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">} -&gt; {</span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">}&quot;</span> <span class="o">%</span>
+            <span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">old</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">new</span><span class="p">))</span>
 </pre></div>
 </div>
-<p><code class="docutils literal"><span class="pre">instance_will_call</span></code> considers the argments being passed to <code class="docutils literal"><span class="pre">__setitem__</span></code> and determines whether
-the value of the element being set will be different. If it&#8217;s different, the new and old values
-are cached. Then, <code class="docutils literal"><span class="pre">instance_post_call</span></code> checks for a change, and prints it if there was.</p>
-<p>To implement <code class="docutils literal"><span class="pre">ListSpectator</span></code>, all we need to do is create a <code class="docutils literal"><span class="pre">WatchedList</span></code> class using <code class="docutils literal"><span class="pre">WatchedType</span></code>:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">WatchedList</span> <span class="o">=</span> <span class="n">WatchedType</span><span class="p">(</span><span class="s1">&#39;WatchedList&#39;</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="n">ListSpectator</span><span class="p">,</span> <span class="s1">&#39;__setitem__&#39;</span><span class="p">)</span>
+<p><code class="docutils literal"><span class="pre">pass_on_old_value</span></code> simply pulls the old value stored at the given index, and then passes
+that value and the index on to its afterback. The afterback then checks to see if the value
+which is <cite>now</cite> stored at that index, is equal to the value which <cite>was</cite> stored there. If it is,
+nothing happens, however if it isn&#8217;t, the change gets printed.</p>
+<p>Instances of <code class="docutils literal"><span class="pre">EventfulList</span></code> will behave exactly like a <code class="docutils literal"><span class="pre">list</span></code> in every way. The only
+difference being that when a user decides to change the value of a preexisting element, the
+spectator is notified, and will print once the action is complete:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">elist</span> <span class="o">=</span> <span class="n">EventfulList</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+
+<span class="n">elist</span><span class="o">.</span><span class="n">spectator_callback</span><span class="p">(</span><span class="s1">&#39;__setitem__&#39;</span><span class="p">,</span>
+    <span class="n">before</span><span class="o">=</span><span class="n">pass_on_old_value</span><span class="p">,</span>
+    <span class="n">after</span><span class="o">=</span><span class="n">print_element_change</span><span class="p">)</span>
+
+<span class="n">elist</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
 </pre></div>
 </div>
-<p>The instances of <code class="docutils literal"><span class="pre">WatchedList</span></code> will behave exactly like a <code class="docutils literal"><span class="pre">list</span></code> in every way. The only difference being
-that when a user decides to change the value of a preexisting element, the spectator is notified, and
-will print once the action is complete:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">l</span> <span class="o">=</span> <span class="n">WatchedList</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
-<span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
-</pre></div>
-</div>
-<p>Prints <code class="docutils literal"><span class="pre">__setitem__</span> <span class="pre">:</span> <span class="pre">{0:</span> <span class="pre">1}</span> <span class="pre">-&gt;</span> <span class="pre">{0:</span> <span class="pre">0}</span></code></p>
+<p>Prints <code class="docutils literal"><span class="pre">{0:</span> <span class="pre">1}</span> <span class="pre">-&gt;</span> <span class="pre">{0:</span> <span class="pre">0}</span></code></p>
 </div>
 <div class="section" id="under-the-hood">
 <h2>Under The Hood<a class="headerlink" href="#under-the-hood" title="Permalink to this headline">¶</a></h2>
-<p>Methods are tracked by using <code class="docutils literal"><span class="pre">WatchedType</span></code> to create a new class with <code class="docutils literal"><span class="pre">method_spectator</span></code> descriptors in
-the place of specified methods. At the time an instance of this class is created, a spectator that weakly
-references it is assigned under the attribute name <code class="docutils literal"><span class="pre">instance_spectator</span></code>. When a <code class="docutils literal"><span class="pre">method_spectator</span></code>
-is accessed through an instance, the descriptor will return a new wrapper function that notifies the
-<code class="docutils literal"><span class="pre">instance_spectator</span></code> of the fact that the wrapper is being called.</p>
-<p>The instance&#8217;s spectator is pinged before and after the wrapper function returned by a <code class="docutils literal"><span class="pre">method_spectator</span></code>
-calls its base method. This fully communicates what will happen, and what has happened to the instance
-when the base method is called - the preemptive notification is sent with the arguments of the call and the
-name of the base method, while afterwards, the base method&#8217;s name and the call&#8217;s result are sent to the
-spectator.</p>
-<p><em>source: https://github.com/rmorshea/spectate</em></p>
+<p>Methods are tracked by using <code class="docutils literal"><span class="pre">watched_type</span></code> to create a new class with <code class="docutils literal"><span class="pre">method_spectator</span></code> descriptors in
+the place of specified methods. At the time an instance of this class is created, a spectator is assigned
+under the attribute name <code class="docutils literal"><span class="pre">_instance_spectator</span></code>. When a <code class="docutils literal"><span class="pre">method_spectator</span></code> is accessed through an instance,
+the descriptor will return a new wrapper function that will redirect to <code class="docutils literal"><span class="pre">Spectator.wrapper</span></code>, which triggers
+the beforebacks and afterbacks registered to the instance.</p>
 </div>
 </div>
 

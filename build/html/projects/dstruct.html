@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>&lt;no title&gt; &mdash; resume 0.1.0 documentation</title>
+  <title>DStruct &mdash; resume 0.1.0 documentation</title>
   
 
   
@@ -82,9 +82,21 @@
           
             
             
-                <ul>
-<li class="toctree-l1"><a class="reference internal" href="../experience/experience.html">Work Experience</a></li>
-<li class="toctree-l1"><a class="reference internal" href="projects.html">Personal Projects</a></li>
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../experience.html">Work Experience</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="projects.html">Personal Projects</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="spectate.html">Spectate</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">DStruct</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#instalation-and-testing">Instalation and Testing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#purpose">Purpose</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#loading-files">Loading Files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id1">Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ising.html">Ising</a></li>
+<li class="toctree-l2"><a class="reference internal" href="songspot.html">SongSpot</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../education.html">Education &amp; Skills</a></li>
 </ul>
 
@@ -118,7 +130,7 @@
       
           <li><a href="projects.html">Personal Projects</a> &raquo;</li>
       
-    <li>&lt;no title&gt;</li>
+    <li>DStruct</li>
       <li class="wy-breadcrumbs-aside">
         
           
@@ -132,7 +144,158 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <p><em>source: https://github.com/rmorshea/dstruct</em></p>
+  <div class="section" id="dstruct">
+<h1>DStruct<a class="headerlink" href="#dstruct" title="Permalink to this headline">¶</a></h1>
+<a class="reference external image-reference" href="https://travis-ci.org/rmorshea/dstruct"><img alt="https://travis-ci.org/rmorshea/dstruct.svg?branch=master" src="https://travis-ci.org/rmorshea/dstruct.svg?branch=master" /></a>
+<p>Parse and map raw data onto the defined fields of a <a class="reference external" href="https://pypi.python.org/pypi/bunch/">bunch</a>-like structure</p>
+<ul class="simple">
+<li>enables complex data parsing</li>
+<li>streamlines data trimming heuristics</li>
+<li>intuitive api for nested data structures</li>
+</ul>
+<p>The implementation relies on the <a class="reference external" href="https://docs.python.org/howto/descriptor.html">descriptor</a> pattern.</p>
+<div class="section" id="instalation-and-testing">
+<h2>Instalation and Testing<a class="headerlink" href="#instalation-and-testing" title="Permalink to this headline">¶</a></h2>
+<p>install <cite>dstruct</cite> using <cite>pip</cite>:</p>
+<div class="code text highlight-default"><div class="highlight"><pre><span></span>$ pip install dstruct
+</pre></div>
+</div>
+<p>To run the tests:</p>
+<div class="code text highlight-default"><div class="highlight"><pre><span></span>$ py.test dstruct
+</pre></div>
+</div>
+<p>For a dev install:</p>
+<ul class="simple">
+<li>clone this github repository</li>
+<li><code class="docutils literal"><span class="pre">cd</span></code> into the parent directory</li>
+<li>and run <code class="docutils literal"><span class="pre">$</span> <span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-e</span> <span class="pre">.</span></code></li>
+</ul>
+</div>
+<div class="section" id="purpose">
+<h2>Purpose<a class="headerlink" href="#purpose" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal"><span class="pre">dstruct</span></code> is designed to map larger data structures onto smaller ones, which is simple in principle,
+but can be complicated in practice - sifting through robust datasets is difficult when the structure
+is highly nested, or relevant information is fractured. However, an intuitive api makes pruning useless
+data, and parsing its relevant subsets easy.</p>
+<p>## Basic Usage
+In the simplest case, <code class="docutils literal"><span class="pre">dstruct</span></code> can retrieve the leaves of a nested data set.</p>
+<p>To solve this problem, create a <code class="docutils literal"><span class="pre">DataStruct</span></code> with <code class="docutils literal"><span class="pre">DataField</span></code> descriptors.
+The <code class="docutils literal"><span class="pre">DataField</span></code> class is used to specify where the data for that field resides, and the
+attribute name it will be assigned to on the <code class="docutils literal"><span class="pre">DataStruct</span></code>. The arguments in a <code class="docutils literal"><span class="pre">DataField</span></code>&#8216;s
+constructor should be the path to a relivant value in the raw data that gets passed to its
+<code class="docutils literal"><span class="pre">DataStruct</span></code>.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1"># we&#39;re only interested in the</span>
+<span class="c1"># values at &quot;a&quot;, &quot;c&quot;, and &quot;d&quot;</span>
+<span class="n">raw_data</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;c&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="s2">&quot;d&quot;</span><span class="p">:</span> <span class="mi">3</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dstruct</span> <span class="kn">import</span> <span class="n">DataStruct</span><span class="p">,</span> <span class="n">DataField</span>
+
+<span class="k">class</span> <span class="nc">A</span><span class="p">(</span><span class="n">DataStruct</span><span class="p">):</span>
+
+    <span class="c1"># this is the same as:</span>
+    <span class="c1"># a = DataField(&#39;a&#39;)</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">DataField</span><span class="p">()</span>
+    <span class="c1"># the constructor&#39;s arguments should</span>
+    <span class="c1"># be a path to values in the raw data</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">DataField</span><span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">)</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">DataField</span><span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span><span class="p">)</span>
+
+<span class="c1"># pass raw data to A&#39;s constructor</span>
+<span class="k">print</span><span class="p">(</span><span class="n">A</span><span class="p">(</span><span class="n">raw_data</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>PRINTS - <code class="docutils literal"><span class="pre">{'a':</span> <span class="pre">1,</span> <span class="pre">'c':</span> <span class="pre">2,</span> <span class="pre">'d':</span> <span class="pre">3}</span></code></p>
+<p>Once the instance has been created:</p>
+<ul class="simple">
+<li>its fields can be retrieved and set with <code class="docutils literal"><span class="pre">.</span></code> or <code class="docutils literal"><span class="pre">dict</span></code> syntax</li>
+<li>use its <code class="docutils literal"><span class="pre">update</span></code> method to give it new data to sift through</li>
+</ul>
+<p><strong>But what about more complicated cases?</strong></p>
+<p>After all, a more realistic application of <code class="docutils literal"><span class="pre">dstruct</span></code> might be towards making a bank account summary.
+And in that scenario, some parsers might be required to make the information presentable. Adding a
+parser to the field of a <code class="docutils literal"><span class="pre">DataStruct</span></code> can be done in a three ways:</p>
+<p><strong>1. Using the keyword ``&#8221;parser&#8221;`` in a DataField:</strong></p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">raw_data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;checking&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;number&#39;</span><span class="p">:</span> <span class="s1">&#39;123456789&#39;</span><span class="p">}</span>
+
+<span class="k">class</span> <span class="nc">Account</span><span class="p">(</span><span class="n">DataStruct</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">DataField</span><span class="p">()</span>
+    <span class="c1"># adds a parser that only shows the last four numbers</span>
+    <span class="n">number</span> <span class="o">=</span> <span class="n">DataField</span><span class="p">(</span><span class="n">parser</span><span class="o">=</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="s1">&#39;X&#39;</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">[:</span><span class="o">-</span><span class="mi">4</span><span class="p">])</span><span class="o">+</span><span class="n">s</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">:])</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">Account</span><span class="p">(</span><span class="n">raw_data</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>PRINTS - <code class="docutils literal"><span class="pre">{'name':</span> <span class="pre">'checking',</span> <span class="pre">'number':</span> <span class="pre">'XXXXX6789'}</span></code></p>
+<p><strong>2. Using the `datafield` decorator:</strong></p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">raw_data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;checking&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;number&#39;</span><span class="p">:</span> <span class="s1">&#39;0123456789&#39;</span><span class="p">}</span>
+
+<span class="k">class</span> <span class="nc">Account</span><span class="p">(</span><span class="n">DataStruct</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">DataField</span><span class="p">()</span>
+    <span class="c1"># creates a new DataField object with the</span>
+    <span class="c1"># defined instance method as its parser</span>
+    <span class="nd">@datafield</span><span class="p">(</span><span class="s1">&#39;number&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">number</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">numstr</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;X&#39;</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">numstr</span><span class="p">[:</span><span class="o">-</span><span class="mi">4</span><span class="p">])</span><span class="o">+</span><span class="n">numstr</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">:]</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">Account</span><span class="p">(</span><span class="n">raw_data</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>PRINTS - <code class="docutils literal"><span class="pre">{'name':</span> <span class="pre">'checking',</span> <span class="pre">'number':</span> <span class="pre">'XXXXX6789'}</span></code></p>
+<p><strong>3. Using the `dataparser` decorator:</strong></p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">raw_data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;checking&#39;</span><span class="p">:</span> <span class="s1">&#39;123456789&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;credit&#39;</span><span class="p">:</span> <span class="s1">&#39;987654321&#39;</span><span class="p">}</span>
+
+<span class="k">class</span> <span class="nc">Accounts</span><span class="p">(</span><span class="n">DataStruct</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">shown</span><span class="o">=</span><span class="mi">4</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">number_shown</span> <span class="o">=</span> <span class="n">shown</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Accounts</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="n">checking</span> <span class="o">=</span> <span class="n">DataField</span><span class="p">()</span>
+
+    <span class="c1"># creates a loose data parser and use args</span>
+    <span class="c1"># to specify which fields it applies to</span>
+    <span class="nd">@dataparser</span><span class="p">(</span><span class="s1">&#39;checking&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">hide</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">numstr</span><span class="p">):</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">number_shown</span>
+        <span class="k">return</span> <span class="s1">&#39;X&#39;</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">numstr</span><span class="p">[:</span><span class="n">n</span><span class="p">])</span><span class="o">+</span><span class="n">numstr</span><span class="p">[</span><span class="n">n</span><span class="p">:]</span>
+
+    <span class="c1"># alternatively pass the loose data</span>
+    <span class="c1"># parser to a new field in kwargs</span>
+    <span class="n">credit</span> <span class="o">=</span> <span class="n">DataField</span><span class="p">(</span><span class="n">parser</span><span class="o">=</span><span class="n">hide</span><span class="p">)</span>
+
+
+<span class="k">print</span><span class="p">(</span><span class="n">Accounts</span><span class="p">(</span><span class="n">raw_data</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>PRINTS - <code class="docutils literal"><span class="pre">{&quot;checking&quot;:</span> <span class="pre">&quot;XXXXX6789&quot;,</span> <span class="pre">&quot;credit&quot;:</span> <span class="pre">&quot;XXXXX4321&quot;}</span></code></p>
+<p>see <a class="reference external" href="https://github.com/rmorshea/dstruct#examples">examples</a> for more info</p>
+</div>
+<div class="section" id="loading-files">
+<h2>Loading Files<a class="headerlink" href="#loading-files" title="Permalink to this headline">¶</a></h2>
+<p>At the moment, <code class="docutils literal"><span class="pre">dstruct</span></code> knows how to import data from json and from csv files. To load one of these file
+types, all you have to do is create a data structure that inherits from the respective <code class="docutils literal"><span class="pre">DataStructFromJSON</span></code>
+or <code class="docutils literal"><span class="pre">DataStructFromCSV</span></code> class, and pass its constructor a filename and path.</p>
+<p>The generic class for loading files is <code class="docutils literal"><span class="pre">LoadedDataStruct</span></code>. Using this requires a <code class="docutils literal"><span class="pre">Loader</span></code> object to be
+passed to its constructor. To create a custom loader, inherit from <code class="docutils literal"><span class="pre">dstruct.loader.Loader</span></code> and override
+its <code class="docutils literal"><span class="pre">_read_file_as_dict</span></code> method.</p>
+</div>
+<div class="section" id="id1">
+<h2>Examples<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li><a class="reference external" href="https://github.com/rmorshea/dstruct/blob/master/examples/basic.ipynb">basic</a>: understand data fields and file loading</li>
+<li><a class="reference external" href="https://github.com/rmorshea/dstruct/blob/master/examples/advanced.ipynb">advanced</a>: learn to nest data structures with parsers</li>
+</ol>
+</div>
+</div>
 
 
            </div>
